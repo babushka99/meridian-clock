@@ -1,8 +1,8 @@
-# Privacy Policy — World Time Ruler
+# Privacy Policy — Meridian Clock
 
 _Last updated: 21 October 2026_
 
-World Time Ruler does not collect, send, sell or share any data. Ever.
+Meridian Clock does not collect, send, sell or share any data. Ever.
 
 ## What the extension stores
 

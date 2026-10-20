@@ -1,12 +1,12 @@
 import { defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react';
 
-// Output is a ready-to-load unpacked extension: dist/world-time-ruler/manifest.json.
+// Output is a ready-to-load unpacked extension: dist/meridian-clock/manifest.json.
 export default defineConfig({
   base: './',
   plugins: [react()],
   build: {
-    outDir: 'dist/world-time-ruler',
+    outDir: 'dist/meridian-clock',
     emptyOutDir: true,
     target: 'chrome120',
     modulePreload: { polyfill: false },

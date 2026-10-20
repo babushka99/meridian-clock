@@ -1,4 +1,4 @@
-# World Time Ruler 1.1.0 — test results
+# Meridian Clock 1.1.0 — test results
 
 Run on 2026-10-07, macOS (Darwin 27), Node 26.4, Vitest 5.0.3, Playwright 1.63.0 with its bundled
 Chromium 153 in headless mode.
@@ -9,8 +9,8 @@ Chromium 153 in headless mode.
 |---|---|---|
 | Type check | `tsc --noEmit` | clean |
 | Unit tests (Node) | `npm test` | **40 / 40 passed** |
-| Browser tests on the built extension folder `dist/world-time-ruler` | `npm run test:e2e` | **15 / 15 passed** |
-| Same browser tests on a folder freshly extracted from `dist/world-time-ruler-1.1.0.zip` | `WTR_EXT=<extracted> npx playwright test` | **15 / 15 passed** |
+| Browser tests on the built extension folder `dist/meridian-clock` | `npm run test:e2e` | **15 / 15 passed** |
+| Same browser tests on a folder freshly extracted from `dist/meridian-clock-1.1.0.zip` | `WTR_EXT=<extracted> npx playwright test` | **15 / 15 passed** |
 | ZIP contents identical to the folder | `diff -r` | identical |
 | Bundle scan | grep of built JS/CSS/HTML | no `eval(` / `new Function`; the only URLs are XML namespaces, React's error-message link text and the GeoNames attribution string — none are fetched |
 

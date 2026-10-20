@@ -169,4 +169,12 @@ describe('label placement', () => {
     for (const k of ['a', 'b', 'd']) expect(s.get(k)).not.toBe('hide');
     expect(s.get('d')).toBe('left'); // nothing may leave the viewport on the right edge
   });
+  it('drops extra map labels that cannot fit, never a ruler label', () => {
+    const items = ['Seattle', 'Portland', 'Spokane', 'Tacoma', 'Eugene', 'Salem'].map((name, i) =>
+      ({ id: String(i), name, x: 300 + (i % 2) * 4, y: 150 + i * 3, labelled: true, lon: -122 + i / 10, ruler: i < 2 }));
+    const s = placeLabels(items, 1000);
+    expect(s.get('0')).not.toBe('hide');
+    expect(s.get('1')).not.toBe('hide');
+    expect(items.filter(d => s.get(d.id) === 'hide').length).toBeGreaterThan(0);
+  });
 });

@@ -1,13 +1,13 @@
 {
   "manifest_version": 3,
-  "name": "World Time Ruler",
-  "short_name": "Time Ruler",
+  "name": "Meridian Clock",
+  "short_name": "Meridian",
   "version": "1.1.0",
   "description": "World time on a live day/night map: a ruler of your cities, with time-zone-correct planning conversions. Works offline.",
   "minimum_chrome_version": "120",
   "icons": { "16": "icons/icon-16.png", "32": "icons/icon-32.png", "48": "icons/icon-48.png", "128": "icons/icon-128.png" },
   "action": {
-    "default_title": "Open World Time Ruler",
+    "default_title": "Open Meridian Clock",
     "default_icon": { "16": "icons/icon-16.png", "32": "icons/icon-32.png", "48": "icons/icon-48.png", "128": "icons/icon-128.png" }
   },
   "background": { "service_worker": "background.js", "type": "module" },

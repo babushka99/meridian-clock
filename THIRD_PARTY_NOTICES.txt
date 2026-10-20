@@ -1,5 +1,5 @@
-WORLD TIME RULER — THIRD-PARTY NOTICES
-======================================
+MERIDIAN CLOCK — THIRD-PARTY NOTICES
+====================================
 
 Everything below is bundled inside the extension. Nothing is downloaded at run time.
 

@@ -6,8 +6,8 @@ import path from 'node:path';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const BUNDLED = ['react', 'react-dom', 'scheduler', 'd3-geo', 'd3-array', 'internmap', 'topojson-client', 'world-atlas', 'temporal-polyfill', 'temporal-spec', 'suncalc', '@fontsource-variable/inter', '@fontsource-variable/jetbrains-mono'];
 
-let out = `WORLD TIME RULER — THIRD-PARTY NOTICES
-======================================
+let out = `MERIDIAN CLOCK — THIRD-PARTY NOTICES
+====================================
 
 Everything below is bundled inside the extension. Nothing is downloaded at run time.
 
@@ -41,6 +41,6 @@ for (const name of BUNDLED) {
   out += file ? readFileSync(path.join(dir, file), 'utf8').trim() + '\n' : `(no licence file in package; licence: ${pkg.license})\n`;
 }
 writeFileSync(path.join(root, 'THIRD_PARTY_NOTICES.txt'), out);
-const dist = path.join(root, 'dist/world-time-ruler');
+const dist = path.join(root, 'dist/meridian-clock');
 if (existsSync(dist)) writeFileSync(path.join(dist, 'THIRD_PARTY_NOTICES.txt'), out);
 console.log(`THIRD_PARTY_NOTICES.txt written (${BUNDLED.length} packages)`);

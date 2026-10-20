@@ -78,7 +78,7 @@ export function WorldMap({ model, hour12, T, hoverId, editorId, onHover, onOpen,
   }, [projection, model.map]);
   const rulerKey = model.map.filter(v => v.labelled).map(v => v.city.id).join(',');
   const slots = useMemo(
-    () => placeLabels(model.map.map(v => ({ id: v.city.id, name: v.city.name, x: pts.get(v.city.id)?.[0] ?? 0, y: pts.get(v.city.id)?.[1] ?? 0, labelled: v.labelled, lon: v.city.lon })), W),
+    () => placeLabels(model.map.map(v => ({ id: v.city.id, name: v.city.name, x: pts.get(v.city.id)?.[0] ?? 0, y: pts.get(v.city.id)?.[1] ?? 0, labelled: v.labelled, lon: v.city.lon, ruler: v.ruler })), W),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [pts, rulerKey, W],
   );

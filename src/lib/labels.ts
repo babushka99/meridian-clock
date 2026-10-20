@@ -1,9 +1,10 @@
 // Collision-aware label placement. Each labelled city gets one of nine slots around its dot; the layout is chosen
 // by minimising weighted overlap between labels, dots and the viewport edge (greedy west → east, then local search,
 // then a short deterministic simulated-annealing pass so crowded clusters such as the western USA or West Africa
-// can reach arrangements that single-label moves cannot).
+// can reach arrangements that single-label moves cannot). Ruler cities always keep a label; if overlaps remain, the
+// worst-overlapping extra map label is dropped (its dot stays) and the rest re-settle, until no extra label collides.
 export type Slot = 'right' | 'left' | 'above' | 'below' | 'top' | 'top-left' | 'top-right' | 'below-left' | 'below-right' | 'hide';
-export interface LabelInput { id: string; name: string; x: number; y: number; labelled: boolean; lon: number }
+export interface LabelInput { id: string; name: string; x: number; y: number; labelled: boolean; lon: number; ruler?: boolean }
 interface Box { x: number; y: number; w: number; h: number; weight: number; owner?: string }
 type Plain = Omit<Box, 'weight'>;
 type Cand = { k: Slot; pref: number; boxes: Plain[] };
@@ -22,6 +23,7 @@ export const SLOT_LAYOUT: Record<Exclude<Slot, 'hide'>, { anchor: 'start' | 'mid
 };
 
 const TOUCHING = 300; // total overlap cost (px² × weight) we stop fighting: labels that merely touch
+const CLASH = 40; // px² of text on text that counts as a visible collision (drops an extra label)
 const TIME_W = 48; // "12:00 AM" in JetBrains Mono 10px measures 48px; other times 42px
 const W_RULER_DOT = 40, W_LABEL = 20, W_MINOR_DOT = 3;
 const overlap = (a: Plain, b: Plain) =>
@@ -56,7 +58,7 @@ function rng(seed: number) {
   return () => { a = (a + 0x6d2b79f5) >>> 0; let t = a; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
 }
 
-/** Only `labelled` cities (ruler + always-labelled) get a label; they always get a slot (least-overlap fallback). */
+/** Only `labelled` cities get a label. Ruler cities always get a slot (least-overlap fallback); other labels give way when crowded. */
 export function placeLabels(items: LabelInput[], width: number): Map<string, Slot> {
   const out = new Map<string, Slot>();
   const dots: Box[] = items.map(d => ({ x: d.x - 5, y: d.y - 5, w: 10, h: 10, weight: d.labelled ? W_RULER_DOT : W_MINOR_DOT, owner: d.id }));
@@ -127,5 +129,13 @@ export function placeLabels(items: LabelInput[], width: number): Map<string, Slo
     crowded.forEach((d, i) => place(d, opts.get(d.id)!.find(c => c.k === best[i])!));
     descend();
   }
-  return out;
+  // Text on text is what reads as a collision; a label grazing a neighbour's dot is tolerated.
+  const clash = (d: LabelInput) => { let s = 0; for (const b of current(d).boxes) for (const n of neighbours.get(d.id)!) for (const o of labels.get(n.id) ?? []) s += overlap(b, o); return s; };
+  for (;;) {
+    let worst: LabelInput | undefined, worstCost = CLASH;
+    for (const d of ruler) { const k = d.ruler ? 0 : clash(d); if (k > worstCost) { worst = d; worstCost = k; } }
+    if (!worst) return out;
+    out.set(worst.id, 'hide'); labels.delete(worst.id); ruler.splice(ruler.indexOf(worst), 1);
+    descend(); // the others may now spread into the freed space
+  }
 }

@@ -1,5 +1,5 @@
 // Preferences live in chrome.storage.local (survives restarts and extension updates, and
-// chrome.storage.onChanged keeps every open World Time Ruler tab in sync). Outside an extension
+// chrome.storage.onChanged keeps every open Meridian Clock tab in sync). Outside an extension
 // (vite dev preview) it falls back to localStorage + the `storage` event.
 import { sanitizePrefs, type Prefs } from './prefs';
 

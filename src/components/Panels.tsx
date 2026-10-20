@@ -263,7 +263,7 @@ export function SettingsPanel({ prefs, version, onFormat, onTheme, onReset, onCl
       )}
       <div className="sep" />
       <div className="about">
-        <b>World Time Ruler {version}</b> · settings are stored on this device (chrome.storage.local) and shared by all open tabs.<br />
+        <b>Meridian Clock {version}</b> · settings are stored on this device (chrome.storage.local) and shared by all open tabs.<br />
         Time zones: IANA rules via the browser, resolved with a bundled Temporal implementation.<br />
         Sunrise, sunset, twilight and the day/night boundary are estimates (SunCalc + USNO approximation).<br />
         The longitude grid is a solar reference (15° per hour), not a map of legal time-zone boundaries.<br />

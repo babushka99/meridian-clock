@@ -3,7 +3,7 @@ import { mkdtempSync, readFileSync, mkdirSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 
-const EXT = path.resolve(process.env.WTR_EXT ?? 'dist/world-time-ruler'); // WTR_EXT: test a folder extracted from the ZIP
+const EXT = path.resolve(process.env.WTR_EXT ?? 'dist/meridian-clock'); // WTR_EXT: test a folder extracted from the ZIP
 const SHOTS = path.resolve('docs/test-screenshots');
 mkdirSync(SHOTS, { recursive: true });
 const ID = { sf: 'gn5391959', chicago: 'gn4887398', ny: 'gn5128581', london: 'gn2643743', istanbul: 'gn745044', tokyo: 'gn1850147', kathmandu: 'gn1283240' };
@@ -95,8 +95,8 @@ test('toolbar click opens a dedicated, active extension tab (new tab per click)'
   ]);
   await page.waitForLoadState();
   expect(page.url()).toBe(`chrome-extension://${extId}/index.html`);
-  await expect(page.locator('h1.brand')).toHaveText(/world time ruler/i);
-  await expect(page).toHaveTitle('World Time Ruler');
+  await expect(page.locator('h1.brand')).toHaveText(/meridian clock/i);
+  await expect(page).toHaveTitle('Meridian Clock');
   // The new tab is the active one (compare tab ids; URLs are hidden without the "tabs" permission, which is not requested).
   const mine = await page.evaluate(async () => (await chrome.tabs.getCurrent())?.id);
   const active = await sw.evaluate(async () => (await chrome.tabs.query({ active: true })).map(t => t.id));
@@ -113,7 +113,7 @@ test('loads fully offline: no remote requests, fonts and map bundled, no console
   ctx.on('request', r => requested.push(r.url()));
   const page = await open();
   await expect(page.locator('.bar .cell')).toHaveCount(11);
-  await expect(page.locator('svg.world .city')).toHaveCount(81); // 63 handoff dots + 18 always-labelled cities outside that set
+  await expect(page.locator('svg.world .city')).toHaveCount(84); // 63 handoff dots + 21 always-labelled cities outside that set
   expect((await page.locator('svg.world path').nth(1).getAttribute('d'))!.length).toBeGreaterThan(20000); // country geometry
   await page.evaluate(() => document.fonts.ready);
   const fonts = await page.evaluate(() => [...document.fonts].filter(f => f.status === 'loaded').map(f => f.family.replace(/"/g, '')));
@@ -319,7 +319,7 @@ test('Add city: search, IANA zone shown, duplicates blocked, replace at the ten-
   await expect(cell(page, ID.kathmandu).locator('.diff')).toHaveText('+2h 45m');
   await expect(page.locator(`svg.world .city[data-city="${ID.kathmandu}"] text.name`)).toHaveText('Kathmandu'); // now labelled on the map
   await expect(page.locator(`svg.world .city[data-city="${ID.chicago}"] text.name`)).toHaveCount(0);           // Chicago back to a plain dot
-  await expect(page.locator('svg.world .city')).toHaveCount(81);
+  await expect(page.locator('svg.world .city')).toHaveCount(84);
   await page.keyboard.press('Escape');
   await expect(panel).toHaveCount(0);
 
@@ -333,9 +333,9 @@ test('Add city: search, IANA zone shown, duplicates blocked, replace at the ten-
   await page.locator('[data-result]').first().click();
   await expect(page.getByRole('dialog')).toContainText('Adelaide added');
   await expect(page.locator('.bar .cell')).toHaveCount(11);
-  await expect(page.locator('svg.world .city')).toHaveCount(82);
+  await expect(page.locator('svg.world .city')).toHaveCount(85);
   await expect(page.locator('.bar .cell .nm').last()).toHaveText(/adelaide/i); // UTC+10:30 in October: east of Tokyo
-  await expect(page.locator('.foot')).toContainText('82 cities on map · 10 + GMT on ruler');
+  await expect(page.locator('.foot')).toContainText('85 cities on map · 10 + GMT on ruler');
 
   // an always-labelled map city can also be put on the ruler; the map keeps one dot for it
   await page.getByRole('combobox').fill('madrid');
@@ -344,7 +344,7 @@ test('Add city: search, IANA zone shown, duplicates blocked, replace at the ten-
   await page.locator(`[data-replace="${ID.kathmandu}"]`).click();
   await expect(cell(page, 'gn3117735').locator('.diff')).toHaveText('−1h');
   await expect(page.locator('svg.world .city[data-city="gn3117735"]')).toHaveCount(1);
-  await expect(page.locator('svg.world .city')).toHaveCount(82);
+  await expect(page.locator('svg.world .city')).toHaveCount(85);
 });
 
 test('Manage: remove, change home (offsets and badges update), home removal needs a replacement', async ({ open }) => {
@@ -381,15 +381,15 @@ test('Manage: remove, change home (offsets and badges update), home removal need
   await expect(cell(page, ID.sf).locator('b.prev')).toBeVisible();          // SF Oct 6 vs London Oct 7
   await expect(page.locator('.bar .cell[data-city="gmt"] .diff')).toHaveText('−1h'); // London is on BST
 
-  // map label switches: every map dot that is not a saved city is listed (81 dots − 8 saved after the removals above); 29 start on, the rest off.
+  // map label switches: every map dot that is not a saved city is listed (84 dots − 8 saved after the removals above); 33 start on, the rest off.
   // A saved city and an always-labelled city lose their label but keep their dot, a plain dot gains one; the choices survive a reload
-  await expect(panel.locator('[data-labelled]')).toHaveCount(73);
-  await expect(panel.locator('[data-labelled][data-on]')).toHaveCount(29);
+  await expect(panel.locator('[data-labelled]')).toHaveCount(76);
+  await expect(panel.locator('[data-labelled][data-on]')).toHaveCount(33);
   await expect(panel.getByRole('checkbox', { name: 'Show label for Lima' })).not.toBeChecked();
   await expect(page.locator('svg.world .city[data-city="gn3936456"] text.name')).toHaveCount(0); // Lima: dot only
   await panel.getByRole('checkbox', { name: 'Show label for Lima' }).check();
   await expect(page.locator('svg.world .city[data-city="gn3936456"] text.name')).toHaveText('Lima');
-  await expect(panel.locator('[data-labelled][data-on]')).toHaveCount(30);
+  await expect(panel.locator('[data-labelled][data-on]')).toHaveCount(34);
   await panel.getByRole('checkbox', { name: 'Show label for Istanbul' }).uncheck();
   await panel.getByRole('checkbox', { name: 'Show label for Miami' }).uncheck();
   await expect(page.locator(`svg.world .city[data-city="${ID.istanbul}"] text.name`)).toHaveCount(0);
@@ -491,7 +491,7 @@ test('live mode ticks each minute and refreshes when the tab becomes visible aga
 });
 
 for (const [w, h] of [[1280, 720], [1440, 900]] as const) {
-  test(`layout ${w}px: ten cities + GMT, no horizontal scroll, readable cells, ruler ≤ 144px, 39 map labels never overlap`, async ({ open }) => {
+  test(`layout ${w}px: ten cities + GMT, no horizontal scroll, readable cells, ruler ≤ 144px, map labels never overlap`, async ({ open }) => {
     const page = await open({ width: w, height: h, clock: '2026-10-07T00:00:00Z' });
     await page.evaluate(() => document.fonts.ready);
     const m = await page.evaluate(() => {
@@ -516,7 +516,8 @@ for (const [w, h] of [[1280, 720], [1440, 900]] as const) {
     expect(m.topOverflow).toBe(false);
     expect(m.map).toBeGreaterThan(h * 0.6);
     expect(m.overlapping).toEqual([]);
-    expect(await page.locator('svg.world .city text.name').count()).toBe(39); // 10 ruler + 29 always-labelled
+    // 10 ruler + 33 always-labelled; at 1280px the crowded western USA has no room for Seattle and Las Vegas, which stay dots
+    expect(await page.locator('svg.world .city text.name').count()).toBe(w === 1280 ? 41 : 43);
     await page.screenshot({ path: path.join(SHOTS, `dark-live-${w}.png`) });
     await page.locator('[data-theme-toggle]').click();
     await expect(page.locator('body')).toHaveClass(/light/);

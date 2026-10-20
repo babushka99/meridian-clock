@@ -1,8 +1,8 @@
 {
-  "name": "world-time-ruler",
+  "name": "meridian-clock",
   "version": "1.1.0",
   "private": true,
-  "description": "World Time Ruler — a dedicated-tab world time map Chrome extension (Manifest V3).",
+  "description": "Meridian Clock — a dedicated-tab world time map Chrome extension (Manifest V3).",
   "license": "MIT",
   "type": "module",
   "scripts": {
@@ -44,6 +44,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/babushka99/world-time-ruler.git"
+    "url": "https://github.com/babushka99/meridian-clock.git"
   }
 }

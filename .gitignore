@@ -16,3 +16,6 @@ Three-screen time-zone mockup.zip
 *.log
 .vscode/
 .idea/
+
+# Local safety copies — never published
+backups/

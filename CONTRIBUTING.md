@@ -14,12 +14,12 @@ You need **Node.js 22.12 or newer** and Chrome 120+.
 ```sh
 npm ci                            # install exact dependency versions
 npm test                          # unit tests
-npm run build                     # type check + build → dist/world-time-ruler/
+npm run build                     # type check + build → dist/meridian-clock/
 npx playwright install chromium   # once
 npm run test:e2e                  # browser tests against the built extension
 ```
 
-Load `dist/world-time-ruler/` with **Load unpacked** in `chrome://extensions` to try your change.
+Load `dist/meridian-clock/` with **Load unpacked** in `chrome://extensions` to try your change.
 `npm run dev` gives a quick browser preview without the extension parts.
 
 ## Pull requests

@@ -1,6 +1,6 @@
 import { defineConfig } from '@playwright/test';
 
-// End-to-end tests load the *built* unpacked extension (dist/world-time-ruler) into Chromium.
+// End-to-end tests load the *built* unpacked extension (dist/meridian-clock) into Chromium.
 export default defineConfig({
   testDir: 'tests/e2e',
   timeout: 60_000,

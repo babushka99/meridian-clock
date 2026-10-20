@@ -76,7 +76,7 @@ export function App() {
     <div className="app" data-mode={plan ? 'planning' : 'live'}>
       <header className="top">
         <div className="l">
-          <h1 className="brand">World Time Ruler</h1>
+          <h1 className="brand">Meridian Clock</h1>
           {plan ? <span className="pill plan" role="status"><i />PLANNING</span> : <span className="pill live" role="status"><i />LIVE</span>}
           <span className="meta home-meta">Home · <b>{model.home.city.name}</b></span>
           <span className="meta" data-testid="gmt">GMT · <b>{clockStr(g.h, g.mi, hour12)}<span className="gd"> · {weekdayShort(g)}, {monthDay(g)}</span></b></span>

@@ -1,0 +1,279 @@
+/* =========================================================================
+   Faisal Khan LLC — Mission Control Design System
+   Core tokens: color + type
+   Aesthetic: Bloomberg Terminal × Linear × NASA Mission Control
+   Dark-first. Mono for metrics. Sans for labels.
+   ========================================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+:root {
+  /* ---------------------------------------------------------------------
+     COLOR — SURFACES (deep navy / charcoal stack)
+     --------------------------------------------------------------------- */
+  --bg-void:      #05070d;  /* page background — deepest */
+  --bg-base:      #0d1322;  /* primary surface */
+  --bg-raised:    #161e33;  /* card background */
+  --bg-elevated:  #202a45;  /* raised card / popover */
+  --bg-overlay:   #2c3758;  /* tooltip, modal */
+  --bg-hover:     #3a476d;  /* interactive hover */
+
+  /* ---------------------------------------------------------------------
+     COLOR — BORDERS / LINES (subtle grid feel)
+     --------------------------------------------------------------------- */
+  --line-faint:   #1a2133;  /* card dividers */
+  --line-weak:    #242e47;  /* standard borders */
+  --line-strong:  #35425f;  /* emphasized borders, inputs */
+  --line-grid:    #141c2c;  /* chart gridlines */
+
+  /* ---------------------------------------------------------------------
+     COLOR — FOREGROUND (text scale)
+     --------------------------------------------------------------------- */
+  --fg-primary:    #e6ecf7;  /* headings, primary text */
+  --fg-secondary:  #a8b3cc;  /* body text */
+  --fg-tertiary:   #6b7899;  /* labels, meta */
+  --fg-muted:      #4a5570;  /* disabled, hint */
+  --fg-inverse:    #05070d;  /* text on bright accents */
+
+  /* ---------------------------------------------------------------------
+     COLOR — ACCENTS (neon data-viz palette)
+     Electric cyan is PRIMARY signal color
+     --------------------------------------------------------------------- */
+  --accent-cyan:       #00e5ff;  /* primary accent, active data */
+  --accent-cyan-dim:   #0099b3;  /* lower intensity */
+  --accent-cyan-glow:  #00e5ff33; /* 20% alpha glow */
+
+  --accent-amber:      #ffb020;  /* warnings, idle, caution */
+  --accent-amber-dim:  #b37a14;
+  --accent-amber-glow: #ffb02033;
+
+  --accent-magenta:      #ff3d8b;  /* alerts, errors, hot signals */
+  --accent-magenta-dim:  #b32961;
+  --accent-magenta-glow: #ff3d8b33;
+
+  --accent-green:      #4ade80;  /* healthy, success, active */
+  --accent-green-dim:  #16a34a;
+  --accent-green-glow: #4ade8033;
+
+  --accent-blue:       #5b8dff;  /* running task, info */
+  --accent-blue-dim:   #3a5fb8;
+  --accent-blue-glow:  #5b8dff33;
+
+  --accent-violet:     #a78bfa;  /* secondary data series */
+  --accent-violet-dim: #7c5ed1;
+
+  /* ---------------------------------------------------------------------
+     COLOR — SEMANTIC STATUS
+     --------------------------------------------------------------------- */
+  --status-active:   var(--accent-green);
+  --status-idle:     var(--accent-amber);
+  --status-error:    var(--accent-magenta);
+  --status-running:  var(--accent-blue);
+  --status-offline:  var(--fg-muted);
+
+  /* ---------------------------------------------------------------------
+     TYPE — FAMILIES
+     SUBSTITUTION NOTE: Real brand may use different fonts. Inter and
+     JetBrains Mono are Google Fonts substitutes — flag to user for update.
+     --------------------------------------------------------------------- */
+  --font-sans:    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono:    'JetBrains Mono', 'SF Mono', 'Menlo', 'Consolas', monospace;
+
+  /* ---------------------------------------------------------------------
+     TYPE — SIZE SCALE
+     --------------------------------------------------------------------- */
+  --text-2xs:  10px;
+  --text-xs:   11px;
+  --text-sm:   12px;
+  --text-base: 13px;
+  --text-md:   14px;
+  --text-lg:   16px;
+  --text-xl:   20px;
+  --text-2xl:  24px;
+  --text-3xl:  32px;
+  --text-4xl:  44px;
+  --text-5xl:  56px;
+
+  /* ---------------------------------------------------------------------
+     TYPE — LINE HEIGHT
+     --------------------------------------------------------------------- */
+  --lh-tight:   1.1;
+  --lh-snug:    1.25;
+  --lh-normal:  1.45;
+  --lh-loose:   1.65;
+
+  /* ---------------------------------------------------------------------
+     TYPE — LETTER SPACING
+     Uppercase labels get tracking. Metric numbers tighten.
+     --------------------------------------------------------------------- */
+  --tracking-metric:  -0.02em;
+  --tracking-normal:  0;
+  --tracking-label:   0.08em;
+  --tracking-kicker:  0.14em;
+
+  /* ---------------------------------------------------------------------
+     SPACING (4px base)
+     --------------------------------------------------------------------- */
+  --space-0:  0;
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* ---------------------------------------------------------------------
+     RADIUS — mostly sharp, very subtle rounding (terminal feel)
+     --------------------------------------------------------------------- */
+  --radius-none: 0;
+  --radius-xs:   2px;
+  --radius-sm:   4px;
+  --radius-md:   6px;
+  --radius-lg:   8px;
+  --radius-pill: 999px;
+
+  /* ---------------------------------------------------------------------
+     SHADOWS / GLOWS — subtle elevation + neon signal glows
+     --------------------------------------------------------------------- */
+  --shadow-card:       0 1px 0 0 rgba(255,255,255,0.02) inset, 0 2px 8px rgba(0,0,0,0.4);
+  --shadow-raised:     0 1px 0 0 rgba(255,255,255,0.03) inset, 0 8px 24px rgba(0,0,0,0.55);
+  --shadow-popover:    0 12px 40px rgba(0,0,0,0.7), 0 2px 8px rgba(0,0,0,0.5);
+
+  --glow-cyan:     0 0 12px var(--accent-cyan-glow), 0 0 2px var(--accent-cyan);
+  --glow-amber:    0 0 10px var(--accent-amber-glow);
+  --glow-magenta:  0 0 10px var(--accent-magenta-glow);
+  --glow-green:    0 0 8px var(--accent-green-glow);
+
+  /* ---------------------------------------------------------------------
+     MOTION
+     --------------------------------------------------------------------- */
+  --ease-out:  cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast:   120ms;
+  --dur-base:   200ms;
+  --dur-slow:   400ms;
+  --dur-pulse:  2000ms;
+}
+
+/* =========================================================================
+   SEMANTIC TYPOGRAPHY CLASSES
+   Use these on elements directly or as mixin references.
+   ========================================================================= */
+
+.ds-h1 {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: var(--text-3xl);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tracking-metric);
+  color: var(--fg-primary);
+}
+
+.ds-h2 {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: var(--text-2xl);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tracking-metric);
+  color: var(--fg-primary);
+}
+
+.ds-h3 {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: var(--text-lg);
+  line-height: var(--lh-snug);
+  color: var(--fg-primary);
+}
+
+.ds-body {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: var(--text-md);
+  line-height: var(--lh-normal);
+  color: var(--fg-secondary);
+}
+
+.ds-body-sm {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: var(--text-sm);
+  line-height: var(--lh-normal);
+  color: var(--fg-secondary);
+}
+
+/* Uppercase tracked label — used for section headers, kickers, chip labels */
+.ds-label {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  color: var(--fg-tertiary);
+}
+
+.ds-kicker {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: var(--text-2xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-kicker);
+  color: var(--accent-cyan);
+}
+
+/* The hero — monospace display numeral, the signature element */
+.ds-metric-xl {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: var(--text-5xl);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tracking-metric);
+  color: var(--fg-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.ds-metric-lg {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: var(--text-3xl);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tracking-metric);
+  color: var(--fg-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.ds-metric-md {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: var(--text-xl);
+  line-height: var(--lh-snug);
+  color: var(--fg-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.ds-metric-sm {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: var(--text-md);
+  color: var(--fg-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+.ds-code {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: var(--text-sm);
+  color: var(--fg-secondary);
+}
+
+.ds-mono-caption {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: var(--text-xs);
+  color: var(--fg-tertiary);
+  letter-spacing: 0;
+}

@@ -1,0 +1,18 @@
+# Dependencies
+node_modules/
+
+# Build output (published as a ZIP on the GitHub Releases page instead)
+dist/
+
+# Test output
+test-results/
+playwright-report/
+
+# Duplicate of design/ — not needed in the repository
+Three-screen time-zone mockup.zip
+
+# OS / editor clutter
+.DS_Store
+*.log
+.vscode/
+.idea/

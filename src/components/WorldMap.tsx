@@ -18,7 +18,9 @@ interface Props {
 
 const Base = memo(function Base({ projection, T, W }: { projection: GeoProjection; T: Palette; W: number }) {
   const path = pathFor(projection);
-  const top = projection([0, 90])![1], bot = projection([0, -90])![1];
+  // The poles sit outside the clip extent when a wide window crops them; the grid then spans the visible map.
+  const clip = projection.clipExtent();
+  const top = Math.max(projection([0, 90])![1], clip?.[0][1] ?? -Infinity), bot = Math.min(projection([0, -90])![1], clip?.[1][1] ?? Infinity);
   const lines = [];
   for (let lon = -180; lon <= 180; lon += 7.5) {
     const x = projection([lon, 0])![0], off = lon / 15, zero = off === 0, half = off % 1 !== 0;
@@ -70,6 +72,8 @@ export function WorldMap({ model, hour12, T, hoverId, editorId, onHover, onOpen,
     const [sx, sy] = projection(s.sun)!;
     return { day: path(s.day), n1: path(s.twilightOuter), n2: path(s.night), n3: path(s.twilightInner), sx, sy, sun: s.sun };
   }, [projection, model.utc]);
+  // Country borders and coastlines again above the night shading, which would otherwise dim them to near-invisible.
+  const borders = useMemo(() => (projection ? pathFor(projection)(LAND) : null), [projection]);
 
   const pts = useMemo(() => {
     const m = new Map<string, [number, number]>();
@@ -102,6 +106,7 @@ export function WorldMap({ model, hour12, T, hoverId, editorId, onHover, onOpen,
             <path d={night.n1 ?? ''} fill={T.night1} />
             <path d={night.n2 ?? ''} fill={T.night2} stroke={T.term} strokeWidth={0.8} strokeOpacity={0.7} />
             <path d={night.n3 ?? ''} fill={T.night3} />
+            <path d={borders ?? ''} fill="none" stroke={T.border} strokeWidth={0.6} />
             <circle className="sun" cx={night.sx} cy={night.sy} r={3} fill={T.sun} stroke={T.sunRing} strokeWidth={6} />
           </g>
           <g>

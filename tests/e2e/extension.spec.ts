@@ -516,8 +516,8 @@ for (const [w, h] of [[1280, 720], [1440, 900]] as const) {
     expect(m.topOverflow).toBe(false);
     expect(m.map).toBeGreaterThan(h * 0.6);
     expect(m.overlapping).toEqual([]);
-    // 10 ruler + 33 always-labelled; at 1280px the crowded western USA has no room for Seattle and Las Vegas, which stay dots
-    expect(await page.locator('svg.world .city text.name').count()).toBe(w === 1280 ? 41 : 43);
+    // 10 ruler + 33 always-labelled, all with room at both widths (an extra label that cannot fit would stay a plain dot)
+    expect(await page.locator('svg.world .city text.name').count()).toBe(43);
     await page.screenshot({ path: path.join(SHOTS, `dark-live-${w}.png`) });
     await page.locator('[data-theme-toggle]').click();
     await expect(page.locator('body')).toHaveClass(/light/);

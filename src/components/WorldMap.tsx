@@ -16,8 +16,19 @@ interface Props {
   onApply: (c: PlanChoice) => void; onCancel: () => void;
 }
 
-const Base = memo(function Base({ projection, T, W }: { projection: GeoProjection; T: Palette; W: number }) {
+const Base = memo(function Base({ projection, T }: { projection: GeoProjection; T: Palette }) {
   const path = pathFor(projection);
+  return (
+    <g aria-hidden="true">
+      <path d={path(SPHERE) ?? ''} fill={T.ocean} stroke={T.sphereLine} />
+      <path d={path(LAND) ?? ''} fill={T.land} stroke={T.landLine} strokeWidth={0.6} />
+      <path d={path(GRATICULE) ?? ''} fill="none" stroke={T.grat} strokeWidth={0.8} />
+    </g>
+  );
+});
+
+/** GMT offset grid and its labels; drawn above the night shading so the hour lines stay visible on the night side. */
+const Axis = memo(function Axis({ projection, T, W }: { projection: GeoProjection; T: Palette; W: number }) {
   // The poles sit outside the clip extent when a wide window crops them; the grid then spans the visible map.
   const clip = projection.clipExtent();
   const top = Math.max(projection([0, 90])![1], clip?.[0][1] ?? -Infinity), bot = Math.min(projection([0, -90])![1], clip?.[1][1] ?? Infinity);
@@ -35,15 +46,10 @@ const Base = memo(function Base({ projection, T, W }: { projection: GeoProjectio
     }
   }
   return (
-    <g aria-hidden="true">
-      <path d={path(SPHERE) ?? ''} fill={T.ocean} stroke={T.sphereLine} />
-      <path d={path(LAND) ?? ''} fill={T.land} stroke={T.landLine} strokeWidth={0.6} />
-      <path d={path(GRATICULE) ?? ''} fill="none" stroke={T.grat} strokeWidth={0.8} />
-      <g className="axis">
-        {lines}
-        <text x={12} y={top - 10} fill={T.lblEdge}>−12</text>
-        <text x={W - 12} y={top - 10} textAnchor="end" fill={T.lblEdge}>+12</text>
-      </g>
+    <g aria-hidden="true" className="axis">
+      {lines}
+      <text x={12} y={top - 10} fill={T.lblEdge}>−12</text>
+      <text x={W - 12} y={top - 10} textAnchor="end" fill={T.lblEdge}>+12</text>
     </g>
   );
 });
@@ -100,7 +106,7 @@ export function WorldMap({ model, hour12, T, hoverId, editorId, onHover, onOpen,
     <div className="map" ref={ref} onClick={() => editorId && onCancel()}>
       {projection && night && (
         <svg className="world" role="group" aria-label="World map with day and night shading. The longitude grid shows solar offsets, not legal time-zone boundaries.">
-          <Base projection={projection} T={T} W={W} />
+          <Base projection={projection} T={T} />
           <g aria-hidden="true" data-layer="daynight">
             <path d={night.day ?? ''} fill={T.dayWash} />
             <path d={night.n1 ?? ''} fill={T.night1} />
@@ -109,6 +115,7 @@ export function WorldMap({ model, hour12, T, hoverId, editorId, onHover, onOpen,
             <path d={borders ?? ''} fill="none" stroke={T.border} strokeWidth={0.6} />
             <circle className="sun" cx={night.sx} cy={night.sy} r={3} fill={T.sun} stroke={T.sunRing} strokeWidth={6} />
           </g>
+          <Axis projection={projection} T={T} W={W} />
           <g>
             {drawn.map(v => {
               const [x, y] = pts.get(v.city.id)!, k = slots.get(v.city.id) ?? 'hide';

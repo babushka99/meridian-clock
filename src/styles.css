@@ -95,6 +95,9 @@ input:focus, select:focus { outline: none; border-color: var(--accent-cyan) !imp
 .sunmark:focus-visible circle { stroke: var(--accent-cyan); stroke-width: 1; }
 .city text { font-family: var(--font-sans); font-size: 10px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; fill: var(--fg-secondary); pointer-events: none; paint-order: stroke; stroke: var(--map-halo); stroke-width: 3px; stroke-linejoin: round; }
 .city.night text { fill: var(--fg-tertiary); }
+/* Light theme: the night side is a mid grey-blue, so night labels get a matching outline and darker ink instead of a white smudge. */
+body.light .city.night:not(.home) text { stroke: rgba(150, 160, 181, .9); fill: #1f2738; }
+body.light .city.night:not(.home) text.time { fill: #2c3650; }
 .city text.time { font-family: var(--font-mono); font-size: 10px; font-weight: 500; letter-spacing: 0; text-transform: none; fill: var(--fg-tertiary); font-variant-numeric: tabular-nums; }
 .city.home text.name { fill: var(--accent-cyan); }
 .city.home text.time { fill: var(--accent-cyan); }

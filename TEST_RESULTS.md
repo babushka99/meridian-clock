@@ -1,6 +1,6 @@
 # Meridian Clock 1.1.0 — test results
 
-Run on 2026-10-07, macOS (Darwin 27), Node 26.4, Vitest 5.0.3, Playwright 1.63.0 with its bundled
+Run on 2026-10-21, macOS (Darwin 27), Node 26.4, Vitest 5.0.3, Playwright 1.63.0 with its bundled
 Chromium 153 in headless mode.
 
 ## What ran
@@ -8,7 +8,7 @@ Chromium 153 in headless mode.
 | Check | Command | Result |
 |---|---|---|
 | Type check | `tsc --noEmit` | clean |
-| Unit tests (Node) | `npm test` | **40 / 40 passed** |
+| Unit tests (Node) | `npm test` | **46 / 46 passed** |
 | Browser tests on the built extension folder `dist/meridian-clock` | `npm run test:e2e` | **15 / 15 passed** |
 | Same browser tests on a folder freshly extracted from `dist/meridian-clock-1.1.0.zip` | `WTR_EXT=<extracted> npx playwright test` | **15 / 15 passed** |
 | ZIP contents identical to the folder | `diff -r` | identical |
@@ -59,7 +59,7 @@ non-`chrome-extension://` URL.
   panels close on Escape; date/time validation messages for malformed, impossible and out-of-range input.
 * **Layout** — at 1280×720 and 1440×900: ten cities + GMT in one row, no horizontal or vertical
   page scroll, no clipped time/date/offset text in any cell, full names in cell tooltips, none of the
-  26 map labels (10 ruler + 16 always-labelled cities) overlapping, top bar not overflowing, ruler 76 px tall (≤ 144). At 924 px the compact
+  43 map labels (10 ruler + 33 always-labelled cities) overlapping, top bar not overflowing, ruler 76 px tall (≤ 144). At 924 px the compact
   fallback shows all eleven cells in two rows (≤ 144 px); at 560 px all eleven remain visible in
   three rows.
 * **Themes** — computed colours for top bar, ruler, home highlight, planning amber and home dot

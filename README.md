@@ -178,7 +178,7 @@ See `TEST_RESULTS.md`.
 
 ## Contributing
 
-Bug reports, ideas and pull requests are welcome — see [CONTRIBUTING.md](CONTRIBUTING.md) and the
+Bug reports, ideas and pull requests are welcome — see [CONTRIBUTING.md](CONTRIBUTING.md), [MAINTAINING.md](MAINTAINING.md) and the
 [Code of Conduct](CODE_OF_CONDUCT.md). Security issues: see [SECURITY.md](SECURITY.md).
 Privacy: see [PRIVACY.md](PRIVACY.md) (short version: nothing is collected).
 
